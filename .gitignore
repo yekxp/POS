@@ -13,3 +13,5 @@
 *.user
 /pos-backend/JwtManagerHandler/out
 /pos-backend/pos-backend/out
+/pos-backend/pos-backoffice/out/Release/obj
+/pos-backend/pos-backoffice-user-managment/out/Release/obj
