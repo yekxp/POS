@@ -11,3 +11,5 @@
 /pos-backend/pos-backoffice/pos-backoffice.csproj.user
 /pos-backend/pos-backoffice-user-managment/out/Debug
 *.user
+/pos-backend/JwtManagerHandler/out
+/pos-backend/pos-backend/out
