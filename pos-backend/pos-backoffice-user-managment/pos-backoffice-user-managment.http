@@ -1,0 +1,6 @@
+@pos_backoffice_user_managment_HostAddress = http://localhost:5294
+
+GET {{pos_backoffice_user_managment_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

@@ -1,0 +1,11 @@
+<Project>
+  <PropertyGroup>
+    <UseCommonOutputDirectory>false</UseCommonOutputDirectory>
+	<OutputPath>$(MSBuildThisFileDirectory)\$(MSBuildProjectName)\out\$(Configuration)\bin</OutputPath>
+	<BaseIntermediateOutputPath>$(MSBuildThisFileDirectory)\$(MSBuildProjectName)\out\$(Configuration)\obj\</BaseIntermediateOutputPath>
+	<IntermediateOutputPath>$(BaseIntermediateOutputPath)</IntermediateOutputPath>
+	<MSBuildProjectExtensionsPath>$(IntermediateOutputPath)\</MSBuildProjectExtensionsPath>
+	<OutDir>$(OutputPath)</OutDir>
+	<AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
+  </PropertyGroup>
+</Project>

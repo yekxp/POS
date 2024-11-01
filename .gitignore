@@ -1,0 +1,13 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/pos-backend/.vs
+/pos-backend/JwtManagerHandler/out/Debug/net8.0
+/pos-backend/JwtManagerHandler/out/Debug
+/pos-backend/pos-backend/out/Debug
+/pos-backend/pos-backend/pos-backend.csproj.user
+/pos-backend/pos-backoffice/out/Debug
+/pos-backend/pos-backoffice/pos-backoffice.csproj.user
+/pos-backend/pos-backoffice-user-managment/out/Debug
+*.user
