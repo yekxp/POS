@@ -6,7 +6,7 @@ using pos_backend.Services;
 
 namespace pos_backend.Controllers
 {
-    [Route("products")]
+    [Route("api/[controller]")]
     [ApiController]
     public class ProductController : ControllerBase
     {
