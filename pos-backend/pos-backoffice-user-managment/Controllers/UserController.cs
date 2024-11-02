@@ -9,7 +9,7 @@ using System.ComponentModel.DataAnnotations;
 namespace pos_backoffice_user_managment.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
