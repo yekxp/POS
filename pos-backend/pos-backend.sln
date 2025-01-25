@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "pos-backoffice", "pos-backo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JwtManagerHandler", "JwtManagerHandler\JwtManagerHandler.csproj", "{EC17F71B-F8BA-440F-9A39-AC3278FC3E0B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "pos-backoffice-user-managment", "pos-backoffice-user-managment\pos-backoffice-user-managment.csproj", "{65EE9B66-1EB1-40BF-9ECE-52E5A792A814}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "pos-backoffice-user-managment", "pos-backoffice-user-managment\pos-backoffice-user-managment.csproj", "{65EE9B66-1EB1-40BF-9ECE-52E5A792A814}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

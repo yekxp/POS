@@ -40,6 +40,8 @@ builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IPaymentService, PaymentService>();
 builder.Services.AddScoped<ICashRegisterService, CashRegisterService>();
 
+builder.Services.AddHostedService<RelayHostedService>();
+
 WebApplication app = builder.Build();
 
 if (app.Environment.IsDevelopment())
