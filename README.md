@@ -1,6 +1,6 @@
 # Softvérová dokumentácia
 
-[[__TOC__]]
+[__TOC__]
 
 ## Celková charakteristika architektúry
 
