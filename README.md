@@ -6,25 +6,24 @@ Architektúra POS systému je navrhnutá tak, aby umožňovala efektívnu komuni
 
 ### Základné komponenty
 
-- **Brána API (Azure API Managment)** 
+- **Brána API (Azure API Management)**
 Funguje ako centrálny bod, ktorý zabezpečuje overovanie, riadenie prístupu a presmerovanie požiadaviek. Podporuje aj skladanie požiadaviek, preklad protokolov a ukladanie do medzipamäte.
 
-- **Azure Relay (komunikačný most)** 
+- **Azure Relay (komunikačný most)**
 Zabezpečuje bezpečnú komunikáciu v reálnom čase medzi cloudom a lokálnymi POS servermi. Eliminuje potrebu verejných IP adries alebo VPN.
 
-- **POS Backend** 
-Simuluje tradičný POS systém zodpovedný za základné maloobchodné funkcie, ako je spracovanie objednáviek alebo pridávanie produktov.
+- **POS Backend**
+Simuluje tradičný POS systém zodpovedný za základné maloobchodné funkcie, ako je spracovanie objednávok alebo pridávanie produktov.
 
-- **Backoffice** 
+- **Backoffice**
 Pozostáva z modulárnych služieb zodpovedných za správu používateľov a analytické dáta. Služby sú nasadené prostredníctvom Azure App Services a nezávisle škálovateľné.
 
-- **MongoDB** 
+- **MongoDB**
 Databáza NoSQL založená na dokumentoch, ktorú používajú všetky služby na ukladanie a načítanie údajov.
 
 ### Schéma architektúry
 
-
-Nasledujúci diagram znázorňuje architektúru navrhovanej konceptu POS systému. 
+Nasledujúci diagram znázorňuje architektúru navrhovaného konceptu POS systému.
 
 ![Architektúra](.attachments/CloudArch.drawio.png)
 
@@ -32,11 +31,9 @@ Nasledujúci sekvenčný diagram znázorňuje komunikačný tok medzi klientom, 
 
 ![Sekvenčný diagram](.attachments/SeqDiagram.drawio.png)
 
-
 ### Komponenty
 
 Architektúra systému POS sa skladá z niekoľkých komponentov, ktoré spolupracujú na zaistení efektívnej komunikácie medzi klientmi a backendovými službami. V nasledujúcej časti je uvedený prehľad jednotlivých hlavných komponentov a spôsobu integrácie do celkovej architektúry systému.
-
 
 #### POS backend
 
@@ -45,8 +42,6 @@ POS Backend predstavuje základnú obchodnú logiku. Je vyvinutý ako monolitick
 Tento komponent je navrhnutý tak, aby sa dal nasadiť v prostredí cloudu aj v lokálnych pobočkách. Používa autorizáciu založenú na rolách pomocou tokenov JWT, aby sa zabezpečilo, že k operáciám budú mať prístup len overení používatelia s príslušnými oprávneniami.
 
 POS Backend obsahuje nasledujúce služby:
-
-Súčasťou POS Backend sú nasledujúce podmoduly:
 
 ##### Správa produktov
 
@@ -64,7 +59,7 @@ Súčasťou POS Backend sú nasledujúce podmoduly:
 
 ##### Správa platieb
 
-`PaymentsController` spracúvava záznamy o platbách:
+`PaymentsController` spracováva záznamy o platbách:
 
 - **GET** `/api/payments`: Získava všetky platobné záznamy
 
@@ -118,14 +113,13 @@ Backoffice aplikácia je vyvinutá s využitím architektúry mikroslužieb, aby
 
 Táto mikroslužba je zodpovedná za správu účtov zamestnancov, spracovanie autentifikácie a presadzovanie riadenia prístupu na základe rolí v celom pokladničnom systéme.
 
-Koncovové body:
-
+Koncové body:
 
 - **Prihlásenia** (`POST /api/user/login`): Overuje používateľov a vracia token JWT pre autorizovaný prístup k backendovým zdrojom.
 
-- **Rola uživateľa** (`GET /api/user/role?token={token}`): Dekóduje token JWT na získanie roly a umiestnenia používateľa. Tento koncový bod používa brána API na presmerovanie.
+- **Rola užívateľa** (`GET /api/user/role?token={token}`): Dekóduje token JWT na získanie roly a umiestnenia používateľa. Tento koncový bod používa brána API na presmerovanie.
 
-- **Správa používateľov** (`GET`, `POST`, `PUT`, `DELETE /api/user/users`): Tieto koncové body umožňujú manažérom vytvárať, načítavať, aktualizovať a odstraňovať používateľské účty. Všetky operácie sú chránené pomocou autorizácie založenej na rolách. Tento koncovový bod vie použiť iba zamastnanec, ktorý ma rolu `Manager`.
+- **Správa používateľov** (`GET`, `POST`, `PUT`, `DELETE /api/user/users`): Tieto koncové body umožňujú manažérom vytvárať, načítavať, aktualizovať a odstraňovať používateľské účty. Všetky operácie sú chránené pomocou autorizácie založenej na rolách. Tento koncový bod vie použiť iba zamestnanec, ktorý ma rolu `Manager`.
 - **Registrácia** (`POST /api/user/register`): Slúži na pridávanie nových zamestnancov do systému.
   
 - **Aktualizácia a mazanie**: Prístupné len používateľom s rolou `Manager`, aby sa zachoval kontrolovaný prístup k údajom používateľov.
@@ -146,9 +140,9 @@ Prístup k tejto mikroslužbe je obmedzený na používateľov s rolou `Manager`
 
 POS systém používa MongoDB ako primárnu NoSQL databázu na ukladanie údajov. Všetky komponenty zdieľajú prístup k spoločnej inštancii MongoDB umiestnenej v cloude.
 
-#### Nasadenie 
+#### Nasadenie
 
-Databáza musí byť nasadená pomocou [MongoDB Atlas](#https://cloud.mongodb.com/), plne spravovanej cloudovej databázovej služby.
+Databáza musí byť nasadená pomocou [MongoDB Atlas](#https://cloud.mongodb.com), plne spravovanej cloudovej databázovej služby.
 
 #### Požadované kolekcie
 
@@ -188,7 +182,7 @@ Táto časť opisuje kroky potrebné na lokálne nasadenie a spustenie POS syst�
 
 Pre lokálne nasadenie systému je potrebné mať na počítači nainštalované nasledujúce nástroje a komponenty:
 
-- NET SDK 8.0.x](https://dotnet.microsoft.com/en-us/download)
+- NET SDK 8.0.x](<https://dotnet.microsoft.com/en-us/download>)
 - [Visual Studio 2022](https://visualstudio.microsoft.com/)
   - Počas inštalácie treba mať zahrnuté nasledujúce moduly:
     - ASP.NET and web development
@@ -208,22 +202,26 @@ Po nainštalovaní požadovaných komponentov a stiahnutí zdrojového kódu tre
 
 Tento príkaz zabezpečí, aby boli stiahnuté všetky potrebné nugety, na ktoré sa odkazuje.
 
-#### Spustenie aplikacií
+#### Spustenie aplikácii
 
 Spustenie POS systému
+
 ```cmd
 cd pos-backend
 dotnet run
 ```
+
 Spustenie backoffice analytickej mikroslužby
+
 ```cmd
-cd ../pos-backoffice
+cd pos-backoffice
 dotnet run
 ```
 
 Spustenie backoffice mikroslužby správy používateľov
+
 ```cmd
-cd ../pos-backoffice-user-management
+cd pos-backoffice-user-management
 dotnet run
 ```
 
@@ -235,12 +233,12 @@ Na nasadenie POS systému v cloude sa používajú služby Microsoft Azure App S
 
 Pred začatím nasadenia je potrebné:
 
-- máť platné konto [Microsoft Azure](https://azure.microsoft.com/)
+- mať platné konto [Microsoft Azure](https://azure.microsoft.com/)
 - byť prihlásení do [Azure Portal](https://portal.azure.com/)
 
 #### 2. Konfigurácia Azure App Services
 
-Systém sa skladá z troch aplikacií, ktoré je potrebné nasadiť samostatne:
+Systém sa skladá z troch aplikácii, ktoré je potrebné nasadiť samostatne:
 
 - POS Backend
 - Mikroslužba správy používateľov
@@ -248,7 +246,7 @@ Systém sa skladá z troch aplikacií, ktoré je potrebné nasadiť samostatne:
 
 ##### 2.1 Vytvorenie služby App Service
 
-1. Na portáli Azure prejdite na položku **App Services** a kliknite na **Create** 
+1. Na portáli Azure prejdite na položku **App Services** a kliknite na **Create**
 
 2. Nastavte potrebne konfigurácie ako na obrázku
 
@@ -260,7 +258,7 @@ Systém sa skladá z troch aplikacií, ktoré je potrebné nasadiť samostatne:
 
 4. Kliknite na **Review + create**
 
-5. Na GitHube v priečinku `.github\workflows` by sa mal nachadzat .yaml súbor, ktorý by mal mať nasledujúcu šktruktúru
+5. Na GitHube v priečinku `.github\workflows` by sa mal nachádzať .yaml súbor, ktorý by mal mať nasledujúcu štruktúru
 
 ```yaml
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
@@ -329,12 +327,200 @@ jobs:
 
 #### 2. Konfigurácia Azure API Gateway
 
-1. Na portáli Azure prejdite na položku API Managment service a kliknite na Create
+1. Na portáli Azure prejdite na položku API Management service a kliknite na Create
 
 2. Vyplňte povinné polia a v rámci **Pricing tier** vyberte úroveň **Developer** (Aj táto úroveň je platená)
 
-![ApiStep+](.attachments/APIStep1.png)
+![ApiStep1](.attachments/APIStep1.png)
 
 3. Kliknite na **Review + create**
 
-4. 
+4. Vyberte službu API Management Service
+
+5. Vložte a nastavte všetky potrebne koncové body
+
+![ApiStep2](.attachments/APIStep2.png)
+
+6. Nastavte **Web service URL** na základe adresy, ktorá bola priradená pri vytvorení Azure App Services (Default Domain)
+
+![ApiStep3](.attachments/APIStep4.png)
+
+![ApiStep4](.attachments/APIStep3.png)
+
+7. Po pridaní všetkých API je potrebné nastaviť **Policies** pre jednotlivé API
+
+![ApiStep5](.attachments/APIStep5.png)
+
+Do **policy** je potrebne vložiť nasledujúci kód. (Tento krok je potrebné nastaviť pre všetky požadovane koncové body, na ktorých používateľ požaduje presmerovanie)
+
+```xml
+<policies>
+    <inbound>
+        <base />
+        <set-variable name="authHeader" value="@(System.Net.WebUtility.UrlEncode(context.Request.Headers.GetValueOrDefault("Authorization", "").Replace("Bearer ", "")))" />
+        <send-request mode="new" response-variable-name="roleResponse" timeout="60" ignore-error="false">
+            <set-url>@("https://{api-gateway-endpoint}/api/User/role?token=" + context.Variables.GetValueOrDefault("authHeader", ""))</set-url>
+            <set-method>GET</set-method>
+        </send-request>
+        <set-variable name="role" value="@{  
+            string response = ((IResponse)context.Variables["roleResponse"]).Body.As<string>();
+           
+            return response;
+        }" />
+        <set-variable name="roleSuffix" value="@{
+            string response = context.Variables.GetValueOrDefault("role", "");
+            
+            if (response.EndsWith("KE")) {
+                return "http://{lokalna-adresa}/api/Product/locations?location=KE&";
+            }
+
+            if (response.EndsWith("BA")) {
+                return "https://{azure-relay-adresa}/api/Product/locations?location=BA&";
+            }
+
+            return response;
+        }" />
+        <choose>
+            <when condition="@(context.Variables.GetValueOrDefault("roleSuffix", "") == "Manager")">
+                <set-backend-service base-url="{adresa-app-service}/api/Product" />
+                <rewrite-uri template="/" />
+                <set-header name="Authorization" exists-action="override">
+                    <value>@("Bearer " + context.Variables.GetValueOrDefault("authHeader", ""))</value>
+                </set-header>
+            </when>
+            <otherwise>
+                <set-backend-service base-url="@(context.Variables.GetValueOrDefault("roleSuffix", ""))" />
+                <rewrite-uri template="/" />
+                <set-header name="Authorization" exists-action="override">
+                    <value>@("Bearer " + context.Variables.GetValueOrDefault("authHeader", ""))</value>
+                </set-header>
+            </otherwise>
+        </choose>
+    </inbound>
+    <backend>
+        <base />
+    </backend>
+    <outbound>
+        <base />
+    </outbound>
+    <on-error>
+        <base />
+    </on-error>
+</policies>
+
+```
+
+Nasledujúce premenné .xml treba nahradiť za skutočné hodnoty:
+
+- {api-gateway-endpoint} - adresa, na ktorej je spustená mikroslužba správy používateľov
+- {lokalna-adresa} - lokálna adresa, na ktorej je spustený POS backend (adresa musí byť verejná)
+- {azure-relay-adresa} - adresa, na ktorej je spustený Azure Relay + POS backend
+
+#### 2. Konfigurácia Azure Relay
+
+1. Vyberte v Microsoft Azure službu **Relays** a kliknite na tlačidlo **Create**
+2. Vyplňte potrebné údaje: **Resource group**, **Name**, **Location**
+
+![RelaySetup](.attachments/RelayAzure1.png)
+
+3. Kliknite na tlačidlo **Review + create**
+4. Prejdite na svoju novovytvorenú Relay službu
+5. Prejdite na **Entities** -> **Hybrid Connections**. Podľa krokov na nasledujúcom obrázku vytvoríte nové hybridné prepojenie pre potrebné Azure Relay prepojenie
+
+![HybridSetup](.attachments/HybridPOS.png)
+
+6. Prejdite do novovytvoreného hybridného prepojenia
+
+7. Kliknite na **Settings** -> **Shared access policies** a pridajte pomocou tlačidla **Add** dva klúče **Sender** a **Listener**
+
+![HybridSetup2](.attachments/Hybrid2.png)
+
+8. V rámci lokálneho nasadenia je potrebné pridať do `appsetings.json` nasledujúci reťazec
+   
+```json
+  "AzureRelay": {
+    "RelayNamespace": "{meno-namespace}",
+    "ConnectionName": "{meno-hybrid-connection}",
+    "KeyName": "{meno-listner-key}",
+    "Key": "{primary-key}"
+  }
+```
+
+![HybridSetup3](.attachments/Hybrid3.png)
+![HybridSetup4](.attachments/Hybrid4.png)
+
+### Spustenie systému
+
+Po nasadení a konfigurácii všetkých služieb môžete overiť fungovanie systému odoslaním autorizovaných požiadaviek prostredníctvom brány API.
+
+Táto časť poskytuje základný príklad interakcie so systémom pomocou skriptu PowerShell.
+
+#### Registrácia a prihlásenie používateľa
+
+Pre plnú funkcionalitu a možné používanie služieb je potrebné mať zaregistrovaného používateľa.
+
+Príklad registrácie používateľa pomocou PowerShell scriptu
+
+```powershell
+$headers = New-Object "System.Collections.Generic.Dictionary[[String],[String]]"
+$headers.Add("Content-Type", "application/json")
+
+$body = @"
+{
+    `"username`":`"string`",
+    `"name`":`"string`",
+    `"surname`":`"string`",
+    `"role`":`"string`",
+    `"email`":`"string`",
+    `"password`":`"string`",
+    `"confirmPassword`":`"string`"
+}
+"@
+
+$response = Invoke-RestMethod 'https://pos.azure-api.net/api/User/register' -Method 'POST' -Headers $headers
+
+$response | ConvertTo-Json
+```
+
+Príklad prihlasenia používateľa pomocou PowerShell scriptu
+
+```powershell
+$headers = New-Object "System.Collections.Generic.Dictionary[[String],[String]]"
+$headers.Add("Content-Type", "application/json")
+
+$body = @"
+{
+  `"username`": `"meno`",
+  `"password`": `"heslo`"
+}
+"@
+
+$response = Invoke-RestMethod 'https://pos.azure-api.net/api/User/register' -Method 'POST' -Headers $headers
+
+$response | ConvertTo-Json
+
+# $response premenná
+#{
+#    "userName": "meno",
+#    "jwtToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.#eyJuYW1lIjoiam9obnkiLCJyb2xlIjoiQ2FzaGllckJBIiwibmJmIjoxNzQzNTQwOTM5LCJleHAiOjE3NDM1NDQ1M#zksImlhdCI6MTc0MzU0MDkzOX0.KScZyjP2vp7eCFkmpSeYVxb62rW0aCq3GXcNvqwUPLc",
+#    "expiresIn": 3599
+#}
+```
+
+#### Odoslanie požiadavky na API Gateway
+
+Po pustení všetkých služieb môžete otestovať úplnú integráciu odoslaním požiadavky pomocou prostredia PowerShell.
+
+Nižšie je uvedený príklad vykonania požiadavky GET na koncový bod `Product` prostredníctvom API Gateway s použitím požadovaných autorizačných hlavičiek:
+
+```powershell
+$headers = New-Object „System.Collections.Generic.Dictionary[[String],[String]]“
+$headers.Add(„Authorization“, „Bearer <JWT_TOKEN>“)
+
+# <JWT_TOKEN> je získaný z predošlého kroku 
+
+$response = Invoke-RestMethod 'https://{azure-api-gateway-adresa}/api/Product' -Method 'GET' -Headers $headers
+
+# Výstup odpovede
+$response | ConvertTo-Json
+```
