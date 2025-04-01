@@ -1,4 +1,4 @@
-# Systémová príručka
+# Systémová príručka (Jakub Mikula)
 
 ## Celková charakteristika architektúry
 
