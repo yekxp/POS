@@ -245,3 +245,96 @@ Systém sa skladá z troch aplikacií, ktoré je potrebné nasadiť samostatne:
 - POS Backend
 - Mikroslužba správy používateľov
 - Mikroslužba výkazov
+
+##### 2.1 Vytvorenie služby App Service
+
+1. Na portáli Azure prejdite na položku **App Services** a kliknite na **Create** 
+
+2. Nastavte potrebne konfigurácie ako na obrázku
+
+![AzureStep1](.attachments/AzureStep1.png)
+
+3. Napojte sa na svoj GitHub, kde sa nachádza zdrojový kód (GitHub prepojenie doporučujeme pre jednoduché nasadenie a automatické vytvorenie .yaml súborov)
+
+![AzureStep2](.attachments/AzureStep2.png)
+
+4. Kliknite na **Review + create**
+
+5. Na GitHube v priečinku `.github\workflows` by sa mal nachadzat .yaml súbor, ktorý by mal mať nasledujúcu šktruktúru
+
+```yaml
+# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
+# More GitHub Actions for Azure: https://github.com/Azure/actions
+name: Deploy pos-backend to Azure App Service
+on:
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up .NET Core
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.x'
+
+      - name: Change working directory to pos-backend/pos-backend # check if the working directory is correctly set
+        run: cd pos-backend/pos-backend
+
+      - name: Build with dotnet
+        run: dotnet build --configuration Release
+        working-directory: pos-backend/pos-backend
+
+      - name: dotnet publish
+        run: dotnet publish -c Release -o "${{env.DOTNET_ROOT}}/myapp"
+        working-directory: pos-backend/pos-backend
+
+      - name: Upload artifact for deployment job
+        uses: actions/upload-artifact@v4
+        with:
+          name: .net-app
+          path: ${{env.DOTNET_ROOT}}/myapp
+  deploy:
+    runs-on: windows-latest
+    needs: build
+    environment:
+      name: 'Production'
+      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+    permissions:
+      id-token: write #This is required for requesting the JWT
+    steps:
+      - name: Download artifact from build job
+        uses: actions/download-artifact@v4
+        with:
+          name: .net-app
+      
+      - name: Login to Azure
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_038422FF22F44DB9A1F2FAD3268D9CF1 }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_C2243308B84249208B4ADB35ED69282E }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_0A7394799FB44A42B8CA5E774EBAB541 }}
+      - name: Deploy to Azure Web App
+        id: deploy-to-webapp
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: 'pos-backend'
+          slot-name: 'Production'
+          package: .
+```
+
+6. Kroky je potrebné zopakovať pre zvyšné služby
+
+#### 2. Konfigurácia Azure API Gateway
+
+1. Na portáli Azure prejdite na položku API Managment service a kliknite na Create
+
+2. Vyplňte povinné polia a v rámci **Pricing tier** vyberte úroveň **Developer** (Aj táto úroveň je platená)
+
+![ApiStep+](.attachments/APIStep1.png)
+
+3. Kliknite na **Review + create**
+
+4. 
